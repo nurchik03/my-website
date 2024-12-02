@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Центрируем по горизонтали */
+    align-items: center; /* Центрируем по вертикали */
+    height: 100vh; /* Задаем высоту экрана */
+    background-color: #f4f4f4;
+    text-align: center; /* Выравнивание текста по центру */
+}
+
+/* Стили для изображения */
+img {
+    max-width: 100%; /* Изображение не будет выходить за пределы экрана */
+    height: auto; /* Сохраняем пропорции изображения */
+    display: block; /* Убираем лишние отступы */
+    margin-bottom: 20px; /* Отступ снизу от изображения */
+}
+
+/* Стили для кнопки */
+button {
+    padding: 10px 20px; /* Отступы внутри кнопки */
+    font-size: 16px; /* Размер текста на кнопке */
+    background-color: #4CAF50; /* Цвет фона */
+    color: white; /* Цвет текста */
+    border: none; /* Убираем рамку */
+    border-radius: 5px; /* Закругленные углы */
+    cursor: pointer; /* Курсор в виде руки */
+    transition: background-color 0.3s; /* Плавное изменение фона */
+}
+
+/* Эффект при наведении на кнопку */
+button:hover {
+    background-color: #45a049;
+}
