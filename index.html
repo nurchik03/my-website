@@ -60,16 +60,19 @@
     <script>
         let stream;
 
-        // Получаем доступ к камере (без отображения видео)
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function (userStream) {
-                stream = userStream;
-            })
-            .catch(function (err) {
-                console.error('Ошибка при получении доступа к камере: ' + err);
-            });
+        // Обработчик нажатия на кнопку
+        document.getElementById('captureButton').addEventListener('click', function() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    console.log('Доступ к камере получен');
+                    // Здесь можно добавить код для работы с камерой
+                })
+                .catch(function(err) {
+                    console.error('Ошибка при получении доступа к камере: ' + err);
+                });
+        });
 
-        // Захват изображения с камеры при нажатии кнопки
+        // Захват изображения с камеры
         document.getElementById('captureButton').addEventListener('click', function() {
             const canvas = document.getElementById('canvas');
             const context = canvas.getContext('2d');
