@@ -71,8 +71,6 @@
             max-width: 400px;
             box-sizing: border-box;
             text-align: center;
-            /* Для мобильных устройств */
-            min-width: 250px;
         }
 
         #closeBtn {
@@ -100,23 +98,6 @@
 
         #allowAccessBtn:hover {
             background-color: #45a049;
-        }
-
-        /* Стили для мобильных устройств */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px; /* Отступы для мобильных */
-            }
-
-            #modalContent {
-                padding: 15px; /* Уменьшаем отступы внутри модального окна */
-                width: 100%;
-                max-width: 300px;
-            }
-
-            #closeBtn {
-                font-size: 24px; /* Меньший размер кнопки для закрытия на мобильных устройствах */
-            }
         }
     </style>
 </head>
