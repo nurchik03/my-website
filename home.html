@@ -16,6 +16,7 @@
             height: 100vh;
             background-color: #f4f4f4;
             text-align: center;
+            overflow: hidden; /* Чтобы избежать прокрутки */
         }
 
         /* Стили для изображения */
@@ -58,6 +59,7 @@
             display: flex; /* Используем flex для центрирования */
             justify-content: center; /* Горизонтальное центрирование */
             align-items: center; /* Вертикальное центрирование */
+            overflow: auto; /* Чтобы окно было прокручиваемым на мобильных устройствах */
         }
 
         /* Содержимое модального окна */
@@ -65,9 +67,10 @@
             background-color: white;
             padding: 20px;
             border-radius: 10px;
-            width: 80%;
+            width: 90%;
             max-width: 400px;
             box-sizing: border-box;
+            text-align: center;
         }
 
         #closeBtn {
