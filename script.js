@@ -370,7 +370,7 @@
       alert("Корзина пуста. Добавьте товары.");
       return;
     }
-    const phone = "996XXXXXXXXX";
+    const phone = "996700800625";
     let message = "Здравствуйте!%0AХочу оформить заказ.%0A%0AМой заказ:%0A";
     let total = 0;
     cart.forEach((item, index) => {
